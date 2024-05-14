@@ -5,7 +5,8 @@ const initialState = {
   showAddForm: false,
   showContactInfo: false,
   error: null,
-  isUpdate:false,
+  isUpdate: false,
+  toDelete: false,
   message: "",
   contactInfo: {},
 };
@@ -44,36 +45,40 @@ export const deleteContactThunk = createAsyncThunk(
   }
 );
 
-export const addContactThunk=createAsyncThunk( "contact/addContact",
-async (args) => {
+export const addContactThunk = createAsyncThunk(
+  "contact/addContact",
+  async (args) => {
     console.log(args);
-  const resp=await fetch(`https://jsonplaceholder.typicode.com/users`, {
-    method: "POST",
-    body:JSON.stringify(args),
-    headers: {
-    'Content-type': 'application/json; charset=UTF-8',
-  },
-  });
-  const data=await resp.json();
-  console.log(data);
-  return data;
-})
+    const resp = await fetch(`https://jsonplaceholder.typicode.com/users`, {
+      method: "POST",
+      body: JSON.stringify(args),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    });
+    const data = await resp.json();
+    // console.log(data);
+    return data;
+  }
+);
 
-export const updateContactThunk=createAsyncThunk( "contact/updateContact",
-async (args) => {
-  const resp=await fetch(`https://jsonplaceholder.typicode.com/users/${args.id}`, {
-    method: "PATCH",
-    body:JSON.stringify(args),
-    headers: {
-    'Content-type': 'application/json; charset=UTF-8',
-  },
-  });
-  console.log(resp);
-  const data=await resp.json();
-  console.log(data);
-  return data;
-})
-
+export const updateContactThunk = createAsyncThunk(
+  "contact/updateContact",
+  async (args) => {
+    const resp = await fetch(
+      `https://jsonplaceholder.typicode.com/users/${args.id}`,
+      {
+        method: "PATCH",
+        body: JSON.stringify(args),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      }
+    );
+    const data = await resp.json();
+    return data;
+  }
+);
 
 const contactSlice = createSlice({
   name: "contact",
@@ -87,28 +92,27 @@ const contactSlice = createSlice({
     setShowContactInfo: (state, action) => {
       if (action.payload.target === "div") {
         state.showContactInfo = true;
-        console.log(action.payload, "func called");
         state.contactInfo = action.payload.contact;
       } else {
         state.showContactInfo = false;
-        console.log(action.payload, "func called");
         state.contactInfo = null;
       }
-
-      console.log(state.contactInfo, state.showContactInfo);
     },
-    setShowUpdateForm:(state,action)=>{
-        state.isUpdate = !state.isUpdate;
-        state.contactInfo=action.payload;
+    setShowUpdateForm: (state, action) => {
+      state.isUpdate = !state.isUpdate;
+      state.contactInfo = action.payload;
     },
-    setMessage:(state,action)=>{
-      state.message=action.payload;
-    }
+    setDeleteConfirmation: (state, action) => {
+      state.toDelete = !state.toDelete;
+      state.contactInfo = action.payload;
+    },
+    setMessage: (state, action) => {
+      state.message = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
       .addCase(fetchContactsThunk.fulfilled, (state, action) => {
-        // console.log('fetch contacts fulfilled');
         state.contactsList = [...action.payload];
       })
       .addCase(fetchContactsThunk.rejected, (state, action) => {
@@ -130,25 +134,24 @@ const contactSlice = createSlice({
         );
 
         state.contactsList = [...newContactList];
-        state.message="Contact deleted successfully!";
+        state.message = "Contact deleted successfully!";
       })
       .addCase(deleteContactThunk.rejected, (state, action) => {
         state.error = action.payload;
       })
       .addCase(addContactThunk.fulfilled, (state, action) => {
-        // console.log(action.payload);
-       state.contactsList.push(action.payload);
-        // console.log(state.contactsList);
-        state.message="Contact added successfully!";
+        state.contactsList.push(action.payload);
+        state.message = "Contact added successfully!";
       })
       .addCase(addContactThunk.rejected, (state, action) => {
         state.error = action.payload;
       })
       .addCase(updateContactThunk.fulfilled, (state, action) => {
-        // console.log(action.payload);
-        const newList=state.contactsList.filter(cont=>cont.id!==action.payload.id);
-       state.contactsList=[...newList,action.payload];
-       state.message="Contact updated successfully!";
+        const newList = state.contactsList.filter(
+          (cont) => cont.id !== action.payload.id
+        );
+        state.contactsList = [...newList, action.payload];
+        state.message = "Contact updated successfully!";
       })
       .addCase(updateContactThunk.rejected, (state, action) => {
         state.error = action.payload;

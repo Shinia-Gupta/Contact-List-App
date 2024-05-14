@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   contactActions,
   contactSelector,
-  deleteContactThunk,
   fetchContactsThunk,
   fetchFilteredContactsThunk,
 } from "../redux/contactReducer";
@@ -11,38 +10,37 @@ import { FaRegCircleUser } from "react-icons/fa6";
 import { FaUserEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { MdPersonSearch } from "react-icons/md";
-import { toast } from "react-toastify";
 
 function ContactList() {
-  const { contactsList,error } = useSelector(contactSelector);
+  const { contactsList } = useSelector(contactSelector);
   const dispatch = useDispatch();
 
-  const handleDelete =async (e, contact) => {
-    
-    try{
-    e.stopPropagation();
-  await  dispatch(deleteContactThunk(contact));
-    dispatch(
-      contactActions.setShowContactInfo({ contact: null, target: "button" })
-    );
+  // const handleDelete =async (e, contact) => {
 
-    toast.success("Contact deleted successfully !")
-  }catch(err){
-    toast.error(error);
-  }
+  //   try{
+  //   e.stopPropagation();
+  // await  dispatch(deleteContactThunk(contact));
+  //   dispatch(
+  //     contactActions.setShowContactInfo({ contact: null, target: "button" })
+  //   );
+
+  //   toast.success("Contact deleted successfully !")
+  // }catch(err){
+  //   toast.error(error);
+  // }
+  // };
+
+  const handleUpdate = (e, contact) => {
+    e.stopPropagation();
+    dispatch(contactActions.setShowUpdateForm(contact));
   };
-
-  const handleUpdate= (e,contact)=>{
-    e.stopPropagation();
-    dispatch(contactActions.setShowUpdateForm(contact))
-  }
   useEffect(() => {
     dispatch(fetchContactsThunk());
   }, []);
 
   return (
     <>
-      <div className="bg-green-900 p-2 rounded-bl-xl min-h-[80vh] w-2/5 flex-shrink-0">
+      <div className="bg-green-900 p-2 rounded-bl-xl min-h-[80vh] md:w-2/5 flex-shrink-0 sm:w-full">
         <h1 className="text-orange-600 text-xl font-bold uppercase text-center mb-1">
           Contacts
         </h1>
@@ -63,7 +61,9 @@ function ContactList() {
           <div
             className="flex gap-2 ml-2 items-center justify-between border border-b-1 border-t-0 border-l-0 border-r-0 p-2 border-yellow-100 cursor-pointer"
             key={contact.id}
-            onClick={() =>dispatch(contactActions.setShowContactInfo({ contact, target: "div" })
+            onClick={() =>
+              dispatch(
+                contactActions.setShowContactInfo({ contact, target: "div" })
               )
             }
           >
@@ -82,10 +82,15 @@ function ContactList() {
               </div>
             </div>
             <div className="flex gap-1 ">
-              <FaUserEdit className="size-5 text-yellow-500 shadow-md shadow-black/50 cursor-pointer" onClick={(e)=>handleUpdate(e,contact)}/>
+              <FaUserEdit
+                className="size-5 text-yellow-500 shadow-md shadow-black/50 cursor-pointer"
+                onClick={(e) => handleUpdate(e, contact)}
+              />
               <MdDelete
                 className="size-5 text-red-700 shadow-md shadow-black/50 cursor-pointer"
-                onClick={(e) =>handleDelete(e, contact)}
+                onClick={(e) =>
+                  dispatch(contactActions.setDeleteConfirmation(contact))
+                }
               />
             </div>
           </div>

@@ -3,17 +3,20 @@ import { FaRegCircleUser } from "react-icons/fa6";
 import { IoCloseCircle } from "react-icons/io5";
 
 import { useDispatch, useSelector } from "react-redux";
-import {  contactActions, contactSelector } from "../redux/contactReducer";
+import { contactActions, contactSelector } from "../redux/contactReducer";
 
 function ContactInfo() {
   const { showContactInfo, contactInfo } = useSelector(contactSelector);
   const dispatch = useDispatch();
   return (
     <>
-      <div className="bg-black bg-opacity-60 w-full rounded-br-lg">
+      <div className="bg-black bg-opacity-60 md:w-full sm:min-h-[200px] rounded-br-lg">
         <div className="flex justify-between items-center m-2 bg-white bg-opacity-35 p-2 rounded-lg">
           <h1 className="uppercase font-bold">Contacts Information</h1>
-          <button className="border bg-yellow-400 p-1 font-bold rounded-xl hover:bg-yellow-500 cursor-pointer shadow-md shadow-black/50" onClick={()=>dispatch(contactActions.setShowAddForm())}>
+          <button
+            className="border bg-yellow-400 p-1 font-bold rounded-xl hover:bg-yellow-500 cursor-pointer shadow-md shadow-black/50"
+            onClick={() => dispatch(contactActions.setShowAddForm())}
+          >
             Add New Contact
           </button>
         </div>
