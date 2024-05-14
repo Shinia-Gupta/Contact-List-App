@@ -34,9 +34,18 @@ function ContactList() {
     e.stopPropagation();
     dispatch(contactActions.setShowUpdateForm(contact));
   };
-  useEffect(() => {
-    dispatch(fetchContactsThunk());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(fetchContactsThunk());
+  // }, []);
+
+  useEffect(()=>{
+    const contactsList=JSON.parse(localStorage.getItem("contactsList")||"[]");
+    if(contactsList.length!==0){
+      dispatch(contactActions.setContactsList(contactsList))
+    }else{
+      dispatch(fetchContactsThunk());
+    }
+  },[])
 
   return (
     <>

@@ -109,11 +109,16 @@ const contactSlice = createSlice({
     setMessage: (state, action) => {
       state.message = action.payload;
     },
+    setContactsList:(state,action)=>{
+      state.contactsList=[...action.payload];
+    }
   },
   extraReducers: (builder) => {
     builder
       .addCase(fetchContactsThunk.fulfilled, (state, action) => {
         state.contactsList = [...action.payload];
+        localStorage.setItem('contactsList',JSON.stringify(state.contactsList));
+
       })
       .addCase(fetchContactsThunk.rejected, (state, action) => {
         console.log("fetch contacts rejected");
@@ -134,6 +139,9 @@ const contactSlice = createSlice({
         );
 
         state.contactsList = [...newContactList];
+        localStorage.removeItem("contactsList");
+localStorage.setItem('contactsList',JSON.stringify(state.contactsList));
+
         state.message = "Contact deleted successfully!";
       })
       .addCase(deleteContactThunk.rejected, (state, action) => {
@@ -141,6 +149,8 @@ const contactSlice = createSlice({
       })
       .addCase(addContactThunk.fulfilled, (state, action) => {
         state.contactsList.push(action.payload);
+        localStorage.removeItem("contactsList");
+        localStorage.setItem('contactsList',JSON.stringify(state.contactsList));
         state.message = "Contact added successfully!";
       })
       .addCase(addContactThunk.rejected, (state, action) => {
@@ -151,6 +161,9 @@ const contactSlice = createSlice({
           (cont) => cont.id !== action.payload.id
         );
         state.contactsList = [...newList, action.payload];
+        localStorage.removeItem("contactsList");
+        localStorage.setItem('contactsList',JSON.stringify(state.contactsList));
+       
         state.message = "Contact updated successfully!";
       })
       .addCase(updateContactThunk.rejected, (state, action) => {
