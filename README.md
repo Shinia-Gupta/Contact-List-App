@@ -1,10 +1,10 @@
-**ContactMate**
+# ContactMate
 
 This is a React application that demonstrates the usage of tooltips for displaying additional information when hovering over or clicking on specific elements. The application allows users to manage a list of contacts, view contact details, add new contacts, update existing contacts, search contacts and delete contacts. 
 
 Go Live on [ContactMate]()
 
-### Features:
+## Features:
 
 1. **Contact List:** Displays a list of contacts fetched from a mock API endpoint. Users can search for specific contacts by entering text in the search input field. Each contact item in the list shows the contact's username, name, and phone number. Users can also edit or delete contacts directly from the list.
 
@@ -18,7 +18,7 @@ Go Live on [ContactMate]()
 
 6. **Toast Notifications:** Toast notifications are displayed at the top-right corner of the screen to provide feedback on contact addition, update, or deletion operations. These notifications fade out after a few seconds.
 
-### Project Structure:
+## Project Structure:
 
 - **`src/components/`**: Contains React components for different parts of the application, such as Navbar, ContactList, ContactInfo, AddUpdateUser, and DeleteConfirmationModal.
 
@@ -26,7 +26,7 @@ Go Live on [ContactMate]()
 
 - **`public/`**: Contains public assets and the `index.html` file where the root React component is mounted.
 
-### Installation and Setup:
+## Installation and Setup:
 
 1. Clone the repository:
    ```
@@ -50,7 +50,7 @@ Go Live on [ContactMate]()
 
 The application should now be running locally and can be accessed at `http://localhost:3000`.
 
-### Technologies Used:
+## Technologies Used:
 
 - **React**: JavaScript library for building user interfaces.
 - **Redux**: State management library for managing application state.
