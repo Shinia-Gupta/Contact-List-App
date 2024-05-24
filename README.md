@@ -1,46 +1,60 @@
-# Getting Started with Create React App and Redux
+**ContactMate**
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
+This is a React application that demonstrates the usage of tooltips for displaying additional information when hovering over or clicking on specific elements. The application allows users to manage a list of contacts, view contact details, add new contacts, update existing contacts, search contacts and delete contacts. 
 
-## Available Scripts
+Go Live on [ContactMate]()
 
-In the project directory, you can run:
+### Features:
 
-### `npm start`
+1. **Contact List:** Displays a list of contacts fetched from a mock API endpoint. Users can search for specific contacts by entering text in the search input field. Each contact item in the list shows the contact's username, name, and phone number. Users can also edit or delete contacts directly from the list.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+2. **Search Functionality:** The application includes a search feature allowing users to filter contacts based on their username. As users type in the search input field, the contact list dynamically updates to display only those contacts whose usernames match the search query.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+3. **Contact Info:** When clicking on a contact item in the list, a detailed view of the contact's information is displayed. This includes the contact's username, name, email, address (city, street, suite, zipcode), company name, and phone number. Users can also edit or delete the contact from this view.
 
-### `npm test`
+4. **Add/Update Contact:** Users can add new contacts or update existing contacts using a modal form. The form includes input fields for username, name, email, address (city, street, suite, zipcode), company name, and phone number. Validation is applied to ensure required fields are filled and proper email format is entered.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+5. **Delete Confirmation Modal:** When deleting a contact, a confirmation modal is displayed to ensure the user's intent. This prevents accidental deletions. Users can confirm or cancel the delete operation from the modal.
 
-### `npm run build`
+6. **Toast Notifications:** Toast notifications are displayed at the top-right corner of the screen to provide feedback on contact addition, update, or deletion operations. These notifications fade out after a few seconds.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Project Structure:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- **`src/components/`**: Contains React components for different parts of the application, such as Navbar, ContactList, ContactInfo, AddUpdateUser, and DeleteConfirmationModal.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- **`src/redux/`**: Contains Redux related files including the contactReducer, actions, and selectors. Thunks are used for handling asynchronous API calls.
 
-### `npm run eject`
+- **`public/`**: Contains public assets and the `index.html` file where the root React component is mounted.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Installation and Setup:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+1. Clone the repository:
+   ```
+   git clone https://github.com/your-username/react-tooltip-app.git
+   ```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+2. Navigate to the project directory:
+   ```
+   cd react-tooltip-app
+   ```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+3. Install dependencies:
+   ```
+   npm install
+   ```
 
-## Learn More
+4. Run the application:
+   ```
+   npm start
+   ```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+The application should now be running locally and can be accessed at `http://localhost:3000`.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Technologies Used:
+
+- **React**: JavaScript library for building user interfaces.
+- **Redux**: State management library for managing application state.
+- **react-icons**: Library for including icons in React applications.
+- **react-toastify**: Library for displaying toast notifications.
+- **Tailwind CSS**: Utility-first CSS framework for styling components.
+- **JSONPlaceholder**: Fake online REST API for testing and prototyping.
