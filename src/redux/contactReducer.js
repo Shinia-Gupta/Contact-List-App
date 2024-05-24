@@ -1,22 +1,23 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
+// Initial state for the contactSlice
 const initialState = {
-  contactsList: [],
-  showAddForm: false,
-  showContactInfo: false,
-  error: null,
-  isUpdate: false,
-  toDelete: false,
-  message: "",
-  contactInfo: {},
+  contactsList: [], // Array to store contacts
+  showAddForm: false, // Flag to show/hide add contact form
+  showContactInfo: false, // Flag to show/hide contact info
+  error: null, // Error state
+  isUpdate: false, // Flag to indicate whether it's an update operation
+  toDelete: false, // Flag to confirm deletion
+  message: "", // Message state for success/error messages
+  contactInfo: {}, // Object to store contact information
 };
 
+// Thunks for fetching, deleting, adding, and updating contacts
 export const fetchContactsThunk = createAsyncThunk(
   "contact/fetchContact",
   async () => {
     const res = await fetch("https://jsonplaceholder.typicode.com/users");
     const data = await res.json();
-    // console.log(data);
     return data;
   }
 );
@@ -29,8 +30,6 @@ export const fetchFilteredContactsThunk = createAsyncThunk(
     const filteredContacts = data.filter((contact) =>
       contact.username.toLowerCase().includes(args.toLowerCase())
     );
-    console.log(filteredContacts);
-    //    setContacts(filteredContacts);
     return filteredContacts;
   }
 );
@@ -48,7 +47,6 @@ export const deleteContactThunk = createAsyncThunk(
 export const addContactThunk = createAsyncThunk(
   "contact/addContact",
   async (args) => {
-    console.log(args);
     const resp = await fetch(`https://jsonplaceholder.typicode.com/users`, {
       method: "POST",
       body: JSON.stringify(args),
@@ -57,7 +55,6 @@ export const addContactThunk = createAsyncThunk(
       },
     });
     const data = await resp.json();
-    // console.log(data);
     return data;
   }
 );
@@ -80,15 +77,15 @@ export const updateContactThunk = createAsyncThunk(
   }
 );
 
+// Define contactSlice
 const contactSlice = createSlice({
   name: "contact",
   initialState: initialState,
   reducers: {
-    // action creator to toggle the add contact form
+    // Action creators for toggling various UI states
     setShowAddForm: (state, action) => {
       state.showAddForm = !state.showAddForm;
     },
-    // action creator to toggle the contact info component
     setShowContactInfo: (state, action) => {
       if (action.payload.target === "div") {
         state.showContactInfo = true;
@@ -109,61 +106,58 @@ const contactSlice = createSlice({
     setMessage: (state, action) => {
       state.message = action.payload;
     },
-    setContactsList:(state,action)=>{
-      state.contactsList=[...action.payload];
-    }
+    setContactsList: (state, action) => {
+      state.contactsList = [...action.payload];
+    },
   },
   extraReducers: (builder) => {
     builder
+      // Fetch contacts
       .addCase(fetchContactsThunk.fulfilled, (state, action) => {
         state.contactsList = [...action.payload];
-        localStorage.setItem('contactsList',JSON.stringify(state.contactsList));
-
+        localStorage.setItem('contactsList', JSON.stringify(state.contactsList));
       })
       .addCase(fetchContactsThunk.rejected, (state, action) => {
-        console.log("fetch contacts rejected");
         state.error = action.payload;
       })
+      // Fetch filtered contacts
       .addCase(fetchFilteredContactsThunk.fulfilled, (state, action) => {
-        // console.log('fetch contacts fulfilled');
         state.contactsList = [...action.payload];
-        console.log(state.contactsList);
       })
       .addCase(fetchFilteredContactsThunk.rejected, (state, action) => {
-        console.log("fetch contacts rejected");
         state.error = action.payload;
       })
+      // Delete contact
       .addCase(deleteContactThunk.fulfilled, (state, action) => {
         const newContactList = state.contactsList.filter(
           (cont) => cont.id !== action.payload.id
         );
-
         state.contactsList = [...newContactList];
         localStorage.removeItem("contactsList");
-localStorage.setItem('contactsList',JSON.stringify(state.contactsList));
-
+        localStorage.setItem('contactsList', JSON.stringify(state.contactsList));
         state.message = "Contact deleted successfully!";
       })
       .addCase(deleteContactThunk.rejected, (state, action) => {
         state.error = action.payload;
       })
+      // Add contact
       .addCase(addContactThunk.fulfilled, (state, action) => {
         state.contactsList.push(action.payload);
         localStorage.removeItem("contactsList");
-        localStorage.setItem('contactsList',JSON.stringify(state.contactsList));
+        localStorage.setItem('contactsList', JSON.stringify(state.contactsList));
         state.message = "Contact added successfully!";
       })
       .addCase(addContactThunk.rejected, (state, action) => {
         state.error = action.payload;
       })
+      // Update contact
       .addCase(updateContactThunk.fulfilled, (state, action) => {
         const newList = state.contactsList.filter(
           (cont) => cont.id !== action.payload.id
         );
         state.contactsList = [...newList, action.payload];
         localStorage.removeItem("contactsList");
-        localStorage.setItem('contactsList',JSON.stringify(state.contactsList));
-       
+        localStorage.setItem('contactsList', JSON.stringify(state.contactsList));
         state.message = "Contact updated successfully!";
       })
       .addCase(updateContactThunk.rejected, (state, action) => {

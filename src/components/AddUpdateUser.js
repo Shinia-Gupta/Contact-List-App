@@ -11,6 +11,7 @@ import {
   updateContactThunk,
 } from "../redux/contactReducer";
 
+// Validation schema using Yup
 const contactSchemaValidation = Yup.object().shape({
   username: Yup.string().required("User Name is required"),
   email: Yup.string().email("Invalid Email").required("Email is required"),
@@ -21,34 +22,30 @@ const contactSchemaValidation = Yup.object().shape({
   phone: Yup.string().required("Phone is required"),
   company: Yup.string().required("Company is required"),
   name: Yup.string().required("Name is required"),
-  // city:Yup.string().required("City is required"),
 });
 
 function AddUpdateUser() {
-  const { isUpdate, contactInfo, contactsList, error } =
-    useSelector(contactSelector);
+  const { isUpdate, contactInfo, contactsList, error } = useSelector(contactSelector);
   const dispatch = useDispatch();
 
+  // Function to add a new contact
   const addContact = async (contact) => {
     try {
       await dispatch(addContactThunk(contact));
       dispatch(contactActions.setShowAddForm());
       toast.success("Contact added successfully !");
     } catch (err) {
-      // console.log(error);
       toast.error(error);
     }
   };
 
+  // Function to update an existing contact
   const updateContact = async (contact) => {
     try {
-      //   console.log("update called");
-      // console.log(contact);
       await dispatch(updateContactThunk(contact));
       dispatch(contactActions.setShowUpdateForm());
       toast.success("Contact updated successfully !");
     } catch (err) {
-      // console.log(error);
       toast.error(error);
     }
   };
@@ -105,14 +102,14 @@ function AddUpdateUser() {
             }
           }}
         >
-          <Form className="flex flex-col gap-4 ">
+          <Form className="flex flex-col gap-4">
             <div className="flex flex-col gap-1">
               <label htmlFor="username" className="font-bold uppercase">
                 Username
               </label>
               <Field
                 name="username"
-                className="h-10 rounded-md border  text-green-900 font-bold"
+                className="h-10 rounded-md border text-green-900 font-bold"
               />
               <div className="text-red-500 text-xs">
                 <ErrorMessage name="username" />
@@ -120,12 +117,11 @@ function AddUpdateUser() {
             </div>
             <div className="flex flex-col gap-1">
               <label htmlFor="name" className="font-bold uppercase">
-                {" "}
                 Name
               </label>
               <Field
                 name="name"
-                className="h-10 rounded-md border  text-green-900 font-bold"
+                className="h-10 rounded-md border text-green-900 font-bold"
               />
               <div className="text-red-500 text-xs">
                 <ErrorMessage name="name" />
@@ -138,7 +134,7 @@ function AddUpdateUser() {
               <Field
                 name="email"
                 type="email"
-                className="h-10 rounded-md border  text-green-900 font-bold"
+                className="h-10 rounded-md border text-green-900 font-bold"
               />
               <div className="text-red-500 text-xs">
                 <ErrorMessage name="email" />
@@ -151,7 +147,7 @@ function AddUpdateUser() {
               <Field
                 name="city"
                 type="text"
-                className="h-10 rounded-md border  text-green-900 font-bold"
+                className="h-10 rounded-md border text-green-900 font-bold"
               />
               <div className="text-red-500 text-xs">
                 <ErrorMessage name="city" />
@@ -164,9 +160,8 @@ function AddUpdateUser() {
               <Field
                 name="street"
                 type="text"
-                className="h-10 rounded-md border  text-green-900 font-bold"
+                className="h-10 rounded-md border text-green-900 font-bold"
               />
-
               <div className="text-red-500 text-xs">
                 <ErrorMessage name="street" />
               </div>
@@ -178,9 +173,8 @@ function AddUpdateUser() {
               <Field
                 name="suite"
                 type="text"
-                className="h-10 rounded-md border  text-green-900 font-bold"
+                className="h-10 rounded-md border text-green-900 font-bold"
               />
-
               <div className="text-red-500 text-xs">
                 <ErrorMessage name="suite" />
               </div>
@@ -192,9 +186,8 @@ function AddUpdateUser() {
               <Field
                 name="zipcode"
                 type="text"
-                className="h-10 rounded-md border  text-green-900 font-bold "
+                className="h-10 rounded-md border text-green-900 font-bold"
               />
-
               <div className="text-red-500 text-xs">
                 <ErrorMessage name="zipcode" />
               </div>
@@ -208,7 +201,6 @@ function AddUpdateUser() {
                 type="text"
                 className="h-10 rounded-md border text-green-900 font-bold"
               />
-
               <div className="text-red-500 text-xs">
                 <ErrorMessage name="phone" />
               </div>
@@ -220,9 +212,8 @@ function AddUpdateUser() {
               <Field
                 name="company"
                 type="text"
-                className="h-10 rounded-md border  text-green-900 font-bold"
+                className="h-10 rounded-md border text-green-900 font-bold"
               />
-
               <div className="text-red-500 text-xs">
                 <ErrorMessage name="company" />
               </div>
