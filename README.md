@@ -2,7 +2,7 @@
 
 This is a React application that demonstrates the usage of tooltips for displaying additional information when hovering over or clicking on specific elements. The application allows users to manage a list of contacts, view contact details, add new contacts, update existing contacts, search contacts and delete contacts. 
 
-Go Live on [ContactMate](https://master--shiniaxcontactmate.netlify.app/)
+Go Live on   [ContactMate](https://master--shiniaxcontactmate.netlify.app/)
 
 ## Features:
 
